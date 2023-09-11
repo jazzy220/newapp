@@ -3,18 +3,20 @@ import NewsItem from "./NewsItem";
 import { Spinner } from "./Spinner";
 import PropTypes from "prop-types";
 
+
 export default class News extends Component {
 
+ 
   static defaultProps = {
     country:"us",
     pageSize:5,
-    category:"general"
+    category:"general",
 
   }
   static propTypes = {
     country: PropTypes.string,
     pageSize: PropTypes.number,
-    category: PropTypes.string
+    category: PropTypes.string,
   }
   constructor() {
     super();
@@ -83,14 +85,14 @@ export default class News extends Component {
   }
   render() {
     return (
-
+      <div className="background-container" >
       <div className="container my-3">
         <h1 className="text-center  my-1" style={{margin:"23px 0px"}}>NewsMonkey -Top headlines</h1>
         {this.state.loading && <Spinner />}
         <div className="row my-4">
           {!this.state.loading && this.state.articles.map((element) => {
             return <div className="col-md-4" key={element.url}>
-              <NewsItem title={element.title ? element.title : ""} description={element.description ? element.description : ""} imgurl={element.urlToImage} url={element.url} author={element.author} Date={element.publishedAt} />
+              <NewsItem title={element.title ? element.title : ""} description={element.description ? element.description : ""} imgurl={element.urlToImage} url={element.url} author={element.author} date={element.publishedAt} source={!element.source.id?element.source.name:element.source.id==="[Removed]"&&"null"?"[Removed]":element.source.name} />
             </div>
           })}
         </div>
@@ -98,6 +100,7 @@ export default class News extends Component {
           <button type="button" disabled={this.state.page <= 1} className="btn btn-primary my-3 mx-3" onClick={this.clickToPrevious}>&larr; Previous Page </button>
           <button type="button" disabled={this.state.page + 1 >= Math.ceil(this.state.totalResults / this.props.pageSize)} className="btn btn-primary my-3" onClick={this.clickToNext}>Go to next page &rarr;</button>
         </div>
+      </div>
       </div>
     )
   }
